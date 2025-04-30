@@ -40,8 +40,7 @@ class ImageDisplayCard extends StatelessWidget {
                 onTap: () async {
                   // إغلاق الـ Bottom Sheet
                   Navigator.pop(context);
-                                  controller.pickImage(ImageSource.gallery);
-
+                  controller.pickImage(ImageSource.gallery);
                 },
               ),
             ],
@@ -80,7 +79,11 @@ class ImageDisplayCard extends StatelessWidget {
                     ],
                   ),
                 )
-              : Image.file(image!, fit: BoxFit.cover),
+              : Image.file(
+                  image!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
         ),
       ),
     );
