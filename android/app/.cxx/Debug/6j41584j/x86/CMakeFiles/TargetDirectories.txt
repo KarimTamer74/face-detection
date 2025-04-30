@@ -1,0 +1,2 @@
+D:/Flutter/Github apps/InternIntelligence_FaceDetection/android/app/.cxx/Debug/6j41584j/x86/CMakeFiles/edit_cache.dir
+D:/Flutter/Github apps/InternIntelligence_FaceDetection/android/app/.cxx/Debug/6j41584j/x86/CMakeFiles/rebuild_cache.dir

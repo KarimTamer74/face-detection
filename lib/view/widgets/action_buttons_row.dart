@@ -16,9 +16,15 @@ class ActionButtonsRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _ActionButton(
-            icon: Icons.photo_library, label: 'Gallery', onTap: onGalleryTap),
+          icon: Icons.photo_library,
+          label: 'Gallery',
+          onTap: onGalleryTap,
+        ),
         _ActionButton(
-            icon: Icons.camera_alt, label: 'Camera', onTap: onCameraTap),
+          icon: Icons.camera_alt,
+          label: 'Camera',
+          onTap: onCameraTap,
+        ),
       ],
     );
   }
@@ -43,27 +49,20 @@ class _ActionButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.4,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: Colors.indigo,
+          color: Colors.indigoAccent,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.indigo.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          border: Border.all(color: Colors.grey, width: 1),
         ),
         child: Column(
           children: [
-            Icon(icon, color: Colors.white, size: 28),
+            Icon(icon, size: 28),
             const SizedBox(height: 8),
             Text(
               label,
               style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),

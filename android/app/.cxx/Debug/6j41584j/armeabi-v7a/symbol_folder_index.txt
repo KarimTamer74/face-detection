@@ -1,0 +1,1 @@
+D:\Flutter\Github apps\InternIntelligence_FaceDetection\build\app\intermediates\cxx\Debug\6j41584j\obj\armeabi-v7a

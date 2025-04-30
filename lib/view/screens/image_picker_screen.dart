@@ -1,91 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:image_detector/view/widgets/action_buttons_row.dart';
 import 'package:image_detector/view/widgets/detection_results_card.dart';
 import 'package:image_detector/view/widgets/image_display_card.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+
+import '../../theme.dart';
 import '../../view_model/image_picker_view_model.dart';
 
-class ImagePickerScreen extends StatefulWidget {
+class ImagePickerScreen extends StatelessWidget {
   const ImagePickerScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ImagePickerScreenState createState() => _ImagePickerScreenState();
-}
-
-class _ImagePickerScreenState extends State<ImagePickerScreen> {
-  // final ImagePickerViewModel _controller = ImagePickerViewModel();
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _controller.addListener(() {
-  //     if (mounted) setState(() {});
-  //   });
-  // }
-
-  // @override
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
-
-  @override
   Widget build(BuildContext context) {
-       final _controller = Provider.of<ImagePickerViewModel>(context);
+    final controller = Provider.of<ImagePickerViewModel>(context);
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        elevation: 0,
-        title:const Text(
+        elevation: 4,
+        title: const Text(
           'Face Detector',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        backgroundColor: Colors.indigo,
         actions: [
           IconButton(
-            icon:const Icon(
-              Icons.info_outline,
-              color: Colors.white,
-            ),
+            icon: const Icon(Icons.info_outline, color: Colors.white),
             onPressed: () => _showInfoDialog(context),
+          ),
+          IconButton(
+            icon: themeNotifier.isDarkMode
+                ? const Icon(Icons.wb_sunny, color: Colors.white)
+                : const Icon(Icons.nightlight_round, color: Colors.white),
+            onPressed: () {
+              themeNotifier.isDarkMode = !themeNotifier.isDarkMode;
+            },
           ),
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.indigo, Colors.indigo.shade50],
-            stops:const [0.0, 0.3],
-          ),
-        ),
+        decoration: const BoxDecoration(),
         child: SafeArea(
           child: SingleChildScrollView(
-            physics:const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  ImageDisplayCard(image: _controller.image),
-                 const SizedBox(height: 20),
-                  DetectionResultsCard(resultText: _controller.result,backgroundColor: _controller.getMoodColor(_controller.mood),),
-                 const SizedBox(height: 20),
-                  ActionButtonsRow(
-                    onGalleryTap: () =>
-                        _controller.pickImage(ImageSource.gallery),
-                    onCameraTap: () =>
-                        _controller.pickImage(ImageSource.camera),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ImageDisplayCard(
+                    image: controller.image, controller: themeNotifier),
+                const SizedBox(height: 20),
+                DetectionResultsCard(
+                  themeNotifier: themeNotifier,
+                  resultText: controller.result,
+                  backgroundColor: controller.getMoodColor(controller.mood),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Select Image',
+                  style: TextStyle(
+                    color: themeNotifier.isDarkMode
+                        ? Colors.indigoAccent
+                        : Colors.indigo,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                 const SizedBox(height: 20),
-                ],
-              ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _FloatingActionButton(
+                      icon: Icons.photo,
+                      onTap: () => controller.pickImage(ImageSource.gallery),
+                    ),
+                    _FloatingActionButton(
+                      icon: Icons.camera_alt,
+                      onTap: () => controller.pickImage(ImageSource.camera),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -96,20 +89,50 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   void _showInfoDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (_) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title:const Text('About Face Detector'),
-        content:const Text(
-          'This app uses ML Kit for Face Detection to analyze faces in images. '
-          'It can detect multiple faces and provide information about facial features '
-          'such as smiling probability and eye openness.',
+        title: const Text('About Face Detector'),
+        content: const Text(
+          'This app uses ML Kit for Face Detection to analyze faces in images. It can detect multiple faces and provide information about facial features.',
         ),
         actions: [
           TextButton(
-            child:const Text('OK'),
+            child: const Text(
+              'OK',
+            ),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _FloatingActionButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _FloatingActionButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+          color: Colors.indigoAccent,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.indigoAccent.withOpacity(0.4),
+              blurRadius: 10,
+              offset: const Offset(0, 6),
+            )
+          ],
+        ),
+        child: Icon(icon, color: Colors.white, size: 28),
       ),
     );
   }
