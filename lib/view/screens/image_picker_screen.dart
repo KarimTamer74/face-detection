@@ -4,7 +4,7 @@ import 'package:image_detector/view/widgets/image_display_card.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../theme.dart';
+import '../../view_model/theme.dart';
 import '../../view_model/image_picker_view_model.dart';
 
 class ImagePickerScreen extends StatelessWidget {

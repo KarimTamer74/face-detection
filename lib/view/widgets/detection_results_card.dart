@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_detector/theme.dart';
+import 'package:image_detector/view_model/theme.dart';
 
 class DetectionResultsCard extends StatelessWidget {
   final String resultText;
