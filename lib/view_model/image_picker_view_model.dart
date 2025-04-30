@@ -8,6 +8,8 @@ class ImagePickerViewModel extends ChangeNotifier {
   File? _image;
   String _result = '';
   String _mood = 'Unknown';
+  bool _isLoading = false;
+bool get isLoading => _isLoading;
   File? get image => _image;
   String get result => _result;
 
@@ -34,15 +36,22 @@ class ImagePickerViewModel extends ChangeNotifier {
     return 'Winking Left Eye 😉';
   }
 
-  Future<void> pickImage(ImageSource source) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: source);
-    if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      notifyListeners();
-      await _analyzeFace(_image!);
-    }
+Future<void> pickImage(ImageSource source) async {
+  final picker = ImagePicker();
+  final pickedFile = await picker.getImage(source: source);
+  if (pickedFile != null) {
+    _isLoading = true;
+    notifyListeners();
+
+    _image = File(pickedFile.path);
+
+    await _analyzeFace(_image!);
+
+    _isLoading = false;
+    notifyListeners();
   }
+}
+
 
   Future<void> _analyzeFace(File image) async {
     final inputImage = InputImage.fromFilePath(image.path);
