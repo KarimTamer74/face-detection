@@ -4,8 +4,8 @@ import 'package:image_detector/view/widgets/image_display_card.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../view_model/theme.dart';
 import '../../view_model/image_picker_view_model.dart';
+import '../../view_model/theme.dart';
 
 class ImagePickerScreen extends StatelessWidget {
   const ImagePickerScreen({super.key});
@@ -20,10 +20,11 @@ class ImagePickerScreen extends StatelessWidget {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       appBar: AppBar(
+        leading: const Icon(Icons.face, color: Colors.white, size: 28),
         elevation: 4,
         title: const Text(
-          'Face Detector',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          'Face Sense',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         actions: [
           IconButton(

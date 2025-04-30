@@ -9,7 +9,7 @@ class ImagePickerViewModel extends ChangeNotifier {
   String _result = '';
   String _mood = 'Unknown';
   bool _isLoading = false;
-bool get isLoading => _isLoading;
+  bool get isLoading => _isLoading;
   File? get image => _image;
   String get result => _result;
 
@@ -36,22 +36,21 @@ bool get isLoading => _isLoading;
     return 'Winking Left Eye 😉';
   }
 
-Future<void> pickImage(ImageSource source) async {
-  final picker = ImagePicker();
-  final pickedFile = await picker.getImage(source: source);
-  if (pickedFile != null) {
-    _isLoading = true;
-    notifyListeners();
+  Future<void> pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: source);
+    if (pickedFile != null) {
+      _isLoading = true;
+      notifyListeners();
 
-    _image = File(pickedFile.path);
+      _image = File(pickedFile.path);
 
-    await _analyzeFace(_image!);
+      await _analyzeFace(_image!);
 
-    _isLoading = false;
-    notifyListeners();
+      _isLoading = false;
+      notifyListeners();
+    }
   }
-}
-
 
   Future<void> _analyzeFace(File image) async {
     final inputImage = InputImage.fromFilePath(image.path);
@@ -71,12 +70,12 @@ Future<void> pickImage(ImageSource source) async {
         _result = '😕 No faces detected in the image';
       } else {
         _result =
-            '✨ Found ${faces.length} face${faces.length > 1 ? 's' : ''}\n\n';
+            '👤 Found ${faces.length} face${faces.length > 1 ? 's' : ''}\n\n';
 
         for (int index = 0; index < faces.length; index++) {
           Face face = faces[index];
           _result +=
-              '👤 Face Analysis ${face.trackingId != null ? '' : ''} (Face ${index + 1})\n';
+              '✨ Face Analysis ${face.trackingId != null ? '' : ''} (Face ${index + 1})\n';
           _result += '───────────────────\n';
 
           // Mood Detection
@@ -84,15 +83,15 @@ Future<void> pickImage(ImageSource source) async {
             String mood = _getMood(face.smilingProbability);
             _mood = mood;
             notifyListeners();
-            _result += '😊 Mood: $mood\n';
+            _result += 'Mood: $mood\n';
             _result +=
-                '   • Smile Confidence: ${(face.smilingProbability! * 100).toStringAsFixed(1)}%\n';
+                '   • Smile Confidence: ${(face.smilingProbability! * 100).toStringAsFixed(1)}%\n\n';
           }
 
           // Eye Status
           String eyeStatus = _getEyeStatus(
               face.leftEyeOpenProbability, face.rightEyeOpenProbability);
-          _result += '👁️ Eyes: $eyeStatus\n';
+          _result += 'Eyes: $eyeStatus\n';
 
           if (face.leftEyeOpenProbability != null) {
             _result +=
