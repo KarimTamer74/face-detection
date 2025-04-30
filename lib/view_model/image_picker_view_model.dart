@@ -1,7 +1,7 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
-
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerViewModel extends ChangeNotifier {
@@ -73,8 +73,8 @@ class ImagePickerViewModel extends ChangeNotifier {
           // Mood Detection
           if (face.smilingProbability != null) {
             String mood = _getMood(face.smilingProbability);
-             _mood = mood; 
-             notifyListeners();
+            _mood = mood;
+            notifyListeners();
             _result += '😊 Mood: $mood\n';
             _result +=
                 '   • Smile Confidence: ${(face.smilingProbability! * 100).toStringAsFixed(1)}%\n';

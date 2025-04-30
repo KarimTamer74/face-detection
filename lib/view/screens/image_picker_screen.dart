@@ -12,6 +12,8 @@ class ImagePickerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isUserSelectedImage =
+        context.watch<ImagePickerViewModel>().image != null;
     final controller = Provider.of<ImagePickerViewModel>(context);
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return Scaffold(
@@ -46,7 +48,9 @@ class ImagePickerScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageDisplayCard(
-                    image: controller.image, controller: themeNotifier),
+                    image: controller.image,
+                    themeNotifier: themeNotifier,
+                    controller: controller),
                 const SizedBox(height: 20),
                 DetectionResultsCard(
                   themeNotifier: themeNotifier,
@@ -54,30 +58,39 @@ class ImagePickerScreen extends StatelessWidget {
                   backgroundColor: controller.getMoodColor(controller.mood),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  'Select Image',
-                  style: TextStyle(
-                    color: themeNotifier.isDarkMode
-                        ? Colors.indigoAccent
-                        : Colors.indigo,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _FloatingActionButton(
-                      icon: Icons.photo,
-                      onTap: () => controller.pickImage(ImageSource.gallery),
-                    ),
-                    _FloatingActionButton(
-                      icon: Icons.camera_alt,
-                      onTap: () => controller.pickImage(ImageSource.camera),
-                    ),
-                  ],
-                ),
+                isUserSelectedImage
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Upload new Image',
+                            style: TextStyle(
+                              color: themeNotifier.isDarkMode
+                                  ? Colors.indigoAccent
+                                  : Colors.indigo,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _FloatingActionButton(
+                                icon: Icons.photo,
+                                onTap: () =>
+                                    controller.pickImage(ImageSource.gallery),
+                              ),
+                              _FloatingActionButton(
+                                icon: Icons.camera_alt,
+                                onTap: () =>
+                                    controller.pickImage(ImageSource.camera),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : const SizedBox()
               ],
             ),
           ),

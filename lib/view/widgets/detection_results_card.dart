@@ -34,7 +34,9 @@ class DetectionResultsCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.grey, width: 1),
           ),
-          child: Center(
+          child: Align(
+            alignment:
+                resultText.isEmpty ? Alignment.center : Alignment.topLeft,
             child: SelectableText(
               resultText.isEmpty
                   ? 'Face detection results will appear here'
