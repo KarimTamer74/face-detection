@@ -20,7 +20,11 @@ class ImagePickerScreen extends StatelessWidget {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.face, color: Colors.white, size: 28),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white)),
         elevation: 4,
         title: const Text(
           'Face Sense',

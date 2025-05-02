@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_detector/view_model/theme.dart';
 import 'package:image_detector/view_model/image_picker_view_model.dart';
+import 'package:image_detector/view_model/theme.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageDisplayCard extends StatelessWidget {
@@ -70,7 +70,7 @@ class ImageDisplayCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.image, size: 80),
+                      Icon(Icons.image, size: 80, color: Colors.grey),
                       SizedBox(height: 16),
                       Text(
                         'Click here to select an image',
